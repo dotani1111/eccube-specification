@@ -178,3 +178,35 @@
 1. 確認ダイアログでキャンセルを押下する
 1. 画面遷移せず、ボタンは「お気に入りから削除」のまま
 1. マイページ/お気に入り一覧に当該商品が残っている
+
+## EF0202-UC05-T01_商品詳細（構造化データ・規格なし・通常価格なし）
+
+前提：規格なし、販売価格のみ（通常価格は未設定）、商品画像あり、カテゴリ「親カテゴリ > 子カテゴリ」に紐づく商品を登録しておく
+
+1. 前提の商品の商品詳細画面へ遷移し、ページソースを表示する
+1. `<script type="application/ld+json">` に `"@type":"Product"` の構造化データが1つ出力されている
+1. `name` が商品名、`image` が商品画像の絶対URL（`https://` または `http://` から始まる）の配列、`sku` が商品コード、`description` が HTML タグを除いた商品説明文になっている
+1. `category` が `"親カテゴリ > 子カテゴリ"` の形式で出力されている
+1. `offers` が `"@type":"Offer"` で、`url` が商品詳細の絶対URL、`priceCurrency` が `JPY`、`price` が税込販売価格、`availability` が `InStock`、`itemCondition` が `NewCondition` になっている
+1. `offers` に `priceSpecification` は含まれない
+1. 管理画面で当該商品の在庫を 0 にして商品詳細画面を再表示する
+1. `availability` が `OutOfStock` になっている
+
+## EF0202-UC05-T02_商品詳細（構造化データ・通常価格あり）
+
+前提：規格なし、通常価格 2,000 円・販売価格 1,000 円の商品を登録しておく
+
+1. 前提の商品の商品詳細画面へ遷移し、ページソースを表示する
+1. `offers` に `priceSpecification` が含まれ、`"@type":"UnitPriceSpecification"`、`"priceType":"StrikethroughPrice"`、`price` が税込通常価格、`priceCurrency` が `JPY` になっている
+1. 管理画面で通常価格を販売価格以下（例: 1,000 円）に変更して商品詳細画面を再表示する
+1. `offers` に `priceSpecification` が含まれない
+
+## EF0202-UC05-T03_商品詳細（構造化データ・規格ごとに価格が異なる商品）
+
+前提：規格あり、規格ごとに販売価格が異なる（例: 1,000 円と 1,500 円）商品を登録しておく
+
+1. 前提の商品の商品詳細画面へ遷移し、ページソースを表示する
+1. `offers` が `"@type":"AggregateOffer"` で、`lowPrice` が税込最安値、`highPrice` が税込最高値、`offerCount` が表示中の規格数、`priceCurrency` が `JPY`、`availability`・`itemCondition` が出力されている
+1. 管理画面でいずれかの規格を非表示にして商品詳細画面を再表示する
+1. `offerCount` が非表示にした分だけ減り、`lowPrice` / `highPrice` が表示中の規格の価格で再計算されている
+1. 複数のカテゴリに紐づけた場合、`category` が文字列の配列で出力される

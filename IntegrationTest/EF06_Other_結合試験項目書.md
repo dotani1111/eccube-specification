@@ -102,6 +102,22 @@
 1. 当サイトについて画面に遷移する
 1. 管理側の基本情報設定（SHOPマスター）に設定されている情報が表示される
 
+## EF0604-UC01-T02_当サイトについて（構造化データ）
+
+前提：管理画面の設定＞店舗設定＞基本設定で、店名・店名(英語表記)・会社名・取り扱い商品説明文・店舗からのメッセージ・郵便番号・都道府県・住所・電話番号・問い合わせ専用メールアドレス(From, ReplyTo)・適格請求書発行事業者登録番号を設定しておく。ロゴ画像は `html/user_data/assets/img/common/logo.png` に配置していない状態で開始する
+
+1. 当サイトについて画面（/help/about）を表示し、ページソースを表示する
+1. `</body>` 直前の `<script type="application/ld+json">` に、`"@graph"` 配下に `"@type":"WebSite"` と `"@type":"Organization"` の2ノードを持つ構造化データが出力されている
+1. `WebSite` の `name` が店名、`alternateName` が店名(英語表記)、`url` がサイトの絶対URL、`description` が取り扱い商品説明文、`potentialAction` が商品一覧の検索URL（`/products/list?name={search_term_string}`）、`publisher` が Organization ノードの `@id` への参照になっている
+1. `Organization` の `name` が店名、`legalName` が会社名、`description` が店舗からのメッセージ、`email` が問い合わせ専用メールアドレス（送信元メールアドレス(From)は出力されない）、`telephone` が電話番号（ハイフンなし）、`address` が `PostalAddress`（郵便番号・都道府県・住所、`addressCountry` が `JP`）、`contactPoint` が電話番号・メールアドレス・お問い合わせ画面URLを持つ `ContactPoint`、`iso6523Code` が `0221:` + 適格請求書発行事業者登録番号になっている
+1. `Organization` に `logo` は含まれない
+1. 管理画面のファイル管理で `assets/img/common/logo.png` に PNG 画像をアップロードし、ページを再表示する
+1. `Organization` の `logo` に `ImageObject` としてロゴ画像の絶対URLが出力される
+1. 管理画面で会社名・店名(英語表記)・適格請求書発行事業者登録番号を空にして再表示する
+1. `legalName`・`alternateName`・`iso6523Code` の各プロパティ自体が出力されない（空値では出力しない）
+1. TOPページのページソースにも同じ構造化データが出力される
+1. 商品一覧画面・プライバシーポリシー画面のページソースには `WebSite` / `Organization` の構造化データは出力されない
+
 ## EF0605-UC01-T01_プライバシーポリシー
 
 1. TOPページ→プライバシーポリシー
