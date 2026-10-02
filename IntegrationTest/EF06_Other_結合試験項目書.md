@@ -308,3 +308,24 @@
 1. 「Googleアナリティクス設定」にトラッキングIDを設定した状態でTOPページを表示する
 1. 同意の有無にかかわらず `googletagmanager.com/gtag/js` が読み込まれる（従来どおりの挙動）
 1. 試験後、「クッキーポリシー同意機能」を元の設定に戻す
+
+## EF0611-UC01-T01_静的ファイルへの直接アクセス（存在しない画像ファイルは Apache の 404）
+
+前提：Apache + mod_rewrite 環境で、ドキュメントルート直下の `.htaccess` が有効であること（nginx 等では対象外）
+
+1. 存在しない `.png` ファイルのURL（例: /html/upload/save_image/not_exists.png）に直接アクセスする
+1. EC-CUBE のエラーページ（店舗レイアウト付きの「ページがみつかりません。」）ではなく、Apache 標準の「Not Found」ページがステータス 404 で返る
+1. 存在しない `.webp` ファイルのURL（例: /html/upload/save_image/not_exists.webp）に直接アクセスする
+1. `.png` と同様に Apache 標準の「Not Found」ページがステータス 404 で返る
+1. 存在しない `.avif`・`.bmp` ファイルのURLに直接アクセスする
+1. いずれも Apache 標準の「Not Found」ページがステータス 404 で返る
+1. 存在しない拡張子なしのURL（例: /not_exists_page）に直接アクセスする
+1. EC-CUBE のエラーページ「ページがみつかりません。」が表示される（PHP にルーティングされる）
+
+## EF0611-UC01-T02_静的ファイルへの直接アクセス（存在する画像ファイル）
+
+1. 管理画面の商品登録で画像を登録し、商品詳細画面に表示される画像のURL（/html/upload/save_image/〜）を控える
+1. 控えたURLに直接アクセスする
+1. 画像がステータス 200 で表示される
+1. 同じ画像の `.webp` 版（画像URLの末尾に `.webp` を付けたファイル）をサーバ上の同じディレクトリに配置し、`Accept: image/webp` を送るブラウザで元の画像URLにアクセスする
+1. `Content-Type: image/webp` で `.webp` 版が返る
