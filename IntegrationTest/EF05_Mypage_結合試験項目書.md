@@ -74,6 +74,7 @@
 1. TOPページ(ログイン状態)→マイページ→会員情報編集
 1. TOPページ>マイページ>会員情報編集
 1. 会員情報フォームに既存の登録情報が表示される
+1. 各入力欄にフォーカスすると、ブラウザの自動入力候補が表示される（autocomplete 属性: 姓 `family-name`、名 `given-name`、会社名 `organization`、郵便番号 `postal-code`、都道府県 `address-level1`、住所1 `address-line1`、住所2 `address-line2`、電話番号 `tel`、メールアドレス・メールアドレス(確認) `email`、パスワード・パスワード(確認) `new-password`、生年月日 `bday-year` / `bday-month` / `bday-day`）
 1. 会員情報フォームに会員情報を入力する
 1. [変更する]ボタンを押下する
 1. マイページ/会員情報編集(完了)画面が表示される
@@ -137,6 +138,7 @@
 1. [新規お届け先を追加する]ボタンが表示される
 1. [新規お届け先を追加する]ボタンを押下する
 1. 新規お届け先登録用のフォームが表示される
+1. 各入力欄にフォーカスすると、ブラウザの自動入力候補として配送先用（`shipping` セクション）の値が表示される（autocomplete 属性: 姓 `shipping family-name`、名 `shipping given-name`、会社名 `shipping organization`、郵便番号 `shipping postal-code`、都道府県 `shipping address-level1`、住所1 `shipping address-line1`、住所2 `shipping address-line2`、電話番号 `shipping tel`）
 1. すべての項目を入力し、「登録」ボタンを押下する
 1. マイページ/お届け先一覧画面に遷移する
 1. お届け先が入力した内容で登録され、一覧表示されている

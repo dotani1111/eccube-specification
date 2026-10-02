@@ -3,6 +3,7 @@
 ## EF0401-UC01-T01_会員登録（正常パターン）
 
 1. TOPページ>新規会員登録
+1. 各入力欄にフォーカスすると、ブラウザの自動入力候補が表示される（autocomplete 属性: 姓 `family-name`、名 `given-name`、会社名 `organization`、郵便番号 `postal-code`、都道府県 `address-level1`、住所1 `address-line1`、住所2 `address-line2`、電話番号 `tel`、メールアドレス・メールアドレス(確認) `email`、パスワード・パスワード(確認) `new-password`、生年月日 `bday-year` / `bday-month` / `bday-day`。フリガナ・性別・職業は対象外）
 1. 会員情報入力フォームに、会員情報を入力する
 1. 「同意する」ボタンを押下する
 1. 新規会員登録確認画面へ遷移する
