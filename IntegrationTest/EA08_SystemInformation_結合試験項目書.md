@@ -5,6 +5,23 @@
 1. 設定→システム設定→システム情報
 1. ECCUBE/サーバーOS/DB/WEBサーバ/PHP/HTTPユーザエージェントが表示される
 
+## EA0801-UC01-T02_システム情報（PHP情報が無効の場合）
+前提：環境変数 `ECCUBE_PHPINFO_ENABLED` を未定義、または `false` にしておくこと（既定値は無効）
+
+1. 設定→システム設定→システム情報
+1. 「PHP情報」の欄が表示されないことを確認する
+1. `/(管理画面URL)/setting/system/system/phpinfo` に直接アクセスする
+1. ステータス 403 となり、phpinfo の内容が表示されないことを確認する
+   1. https://github.com/EC-CUBE/ec-cube/pull/6627
+
+## EA0801-UC01-T03_システム情報（PHP情報が有効の場合）
+前提：環境変数で `ECCUBE_PHPINFO_ENABLED=true` を定義すること
+
+1. 設定→システム設定→システム情報
+1. 「PHP情報」の欄が表示され、phpinfo の内容が表示されることを確認する
+1. `/(管理画面URL)/setting/system/system/phpinfo` に直接アクセスすると、phpinfo の内容が表示されることを確認する
+1. 試験後、`ECCUBE_PHPINFO_ENABLED` を元の設定に戻す
+
 ## EA0802-UC01-T01_メンバー管理（初期表示）
 
 1. 設定→システム設定→メンバー管理
