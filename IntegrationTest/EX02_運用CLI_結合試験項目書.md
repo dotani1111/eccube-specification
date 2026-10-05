@@ -180,7 +180,7 @@ sudo chown -R <UID>:<GID> html/upload
    ```
 
 1. `created` と表示され、`dtb_mail_template` にレコードが追加され `app/template/<テーマ>/Mail/<ファイル名>.twig` が作成される
-1. `bin/console eccube:mail-template:show --file-name=<ファイル名>` で本文が出力される。この時点では HTML パートが無いため、`--html` を付けると「HTML パートがありません: <ファイル名>」と表示され、終了コードは 1
+1. `bin/console eccube:mail-template:show --file-name=<ファイル名>` で本文が出力される。この時点では HTML パートが無いため、`--html` を付けると「HTML パートがありません: Mail/<ファイル名>.twig」と表示され、終了コードは 1
 
 ## EX0201-UC03-T02_eccube:mail-template:apply（HTML パート）
 
@@ -375,7 +375,8 @@ sudo chown -R <UID>:<GID> html/upload
 1. `app/template/user_data/<ルート名>.twig` を配置し、`pages.yaml` にそのルート名のページ定義を 1 件追加する
 1. `bin/console eccube:contents:import` を実行すると `created` となり、`dtb_page` にレコードが作られる。テンプレートの内容は変更されない
 1. フロントで `/user_data/<ルート名>` が表示される
-1. `pages.yaml` に定義があるがテンプレートファイルが無いルート名を追加して import すると「テンプレートが見つかりません」で終了コードは 1
+1. `dtb_page` に行がある既存ページのテンプレートファイルを削除し、そのページの行を `pages.yaml` に残したまま import すると「テンプレートが見つかりません: <パス>. リポジトリへ配置するか, アーカイブから該当の行を削除してください.」で終了コードは 1
+1. `pages.yaml` に定義があるが `dtb_page` にもテンプレートファイルにも無い新規ルート名を追加して import すると「tpl_data: 入力されていません。」で終了コードは 1
 1. `--continue-on-error` を付けると、エラーの行を飛ばして残りを取り込み、終了コードは 1
 
 ## EX0201-UC09-T04_eccube:contents:import（検証・--prune）
